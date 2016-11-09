@@ -107,6 +107,8 @@ router.post('/webServiceURL/*/log' , function(req, res, next){
 ~~~~
 
 __Testing__
+
+Run mongod on mongodb://localhost:27017, then
 ~~~~
 cd wallet-mongoose
 npm install
