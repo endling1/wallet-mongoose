@@ -27,9 +27,6 @@
     "url": "https://github.com/endling1/wallet-mongoose/issues"
   },
   "homepage": "https://github.com/endling1/wallet-mongoose#readme",
-  "dependencies": {
-    "mongoose": "^4.6.6"
-  },
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.1.2"

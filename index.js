@@ -1,5 +1,3 @@
-var mongoose = require('mongoose');
-
 exports.register = function(req, Device, Registration, callback){
 	/*
 	If the serial number is already registered for this device, returns HTTP status 200.
@@ -108,7 +106,7 @@ exports.getSerialNumbers = function(req, Registration, Pass, callback){
 exports.getPass = function(req, Pass, callback){
 	Pass.findOne({
 		serialNumber : req.params['2'],
-		passTypeIdentifier : req.params['2']
+		passTypeIdentifier : req.params['1']
 	}, function(err, pass){
 		if(err){
 			return callback(err, 500);
