@@ -4,7 +4,13 @@ wallet-mongoose relies on the [mongoose](https://www.npmjs.com/package/mongoose)
 
 Plug this in between any [Authentication module](https://www.npmjs.com/package/jsonwebtoken) and a [Pass generating module](https://www.npmjs.com/package/passbook)
 
-Request -> Authenticate -> wallet-mongoose -> Generate pass
+__Steps__:
+
+1.Generate a Pass and save user data in the Pass schema
+
+2.Wallet app makes REST calls when user adds Pass to the wallet app
+
+3.Wallet requests -> Authenticate -> wallet-mongoose
 
 ## Installation
 `$ npm install wallet-mongoose`
@@ -35,6 +41,39 @@ var Device = mongoose.model('Device' , deviceSchema);
 var Pass = mongoose.model('Pass' , passSchema);
 var Registration = mongoose.model('Registration' , registrationSchema);
 ~~~~
+
+__Generate Pass:__
+
+Generate a Pass using any pass generating module and save the document in the Pass schema
+
+Eg:
+~~~~
+var now = Date.now()
+Pass.update({
+        serialNumber : '1234',
+        passTypeIdentifier : 'pass.com.company.team'
+    },{
+        passTypeIdentifier : 'pass.com.company.team',
+        serialNumber : '1234',
+        lastUpdated : now,
+        userName : 'John Doe'
+        }
+    },{
+        upsert : true,
+        setDefaultsOnInsert : true
+    },function(err , raw){
+        if(err){
+            ......
+        }
+   });
+
+   /*
+    For caching, wallet-mongoose uses the 'if-modified-since' header in the request to getPass(...) to send 304 if Pass.lastUpdated is <= req.headers['if-modified-since'] .
+   */
+    res.setHeader('Last-Modified', now);
+~~~~
+
+On clicking Add pass to the wallet app, the following REST calls are used by the wallet app.
 
 __REST API's:__
 
